@@ -1,0 +1,41 @@
+{
+  "name": "martec-template-api",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm run services:up && next dev",
+    "services:up": "docker compose -f infra/compose.yaml up -d --remove-orphans",
+    "services:down": "docker compose -f infra/compose.yaml down",
+    "services:reset-db": "docker compose -f infra/compose.yaml down -v --remove-orphans && docker compose -f infra/compose.yaml up -d --remove-orphans",
+    "build": "next build",
+    "start": "next start",
+    "lint": "prettier --check .",
+    "lint:fix": "prettier --write .",
+    "test": "jest --runInBand",
+    "test:watch": "jest --watchAll --runInBand",
+    "migration:create": "node-pg-migrate create -m infra/migrations",
+    "migration:up": "node-pg-migrate -m infra/migrations --envPath .env.development.local --database-url-var DATABASE_URL up",
+    "migration:up:prod": "node-pg-migrate -m infra/migrations --database-url-var DATABASE_URL up"
+  },
+  "dependencies": {
+    "dotenv": "16.4.5",
+    "dotenv-expand": "11.0.6",
+    "next": "16.1.6",
+    "node-pg-migrate": "8.0.4",
+    "pg": "8.12.0",
+    "react": "19.2.0",
+    "react-dom": "19.2.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^22.0.0",
+    "@types/pg": "^8.15.2",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "jest": "30.0.0",
+    "node-mocks-http": "^1.15.0",
+    "prettier": "3.3.3",
+    "ts-node": "^10.9.2",
+    "typescript": "5.6.2"
+  }
+}
